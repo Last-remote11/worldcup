@@ -2,12 +2,13 @@ import React from 'react';
 import Card from './Card';
 
 
-const CardList = ({ Candidates }) => {
+const CardList = ({ currentCandidates, onPick }) => {
 
         return(
             <div id = 'CardList'>
-                {console.log(Candidates)}
-                {Candidates.map(element => <Card key = {element.id} image = {element.image} name = {element.name} />)}
+                {console.log(currentCandidates)}
+                {currentCandidates.map(element =>
+                     <Card key = {element.id} id = {element.id} image = {element.image} name = {element.name} onPick = {onPick}/>)}
                 <button>button</button>
             </div>
         )
