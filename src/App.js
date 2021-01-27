@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import CardList from './CardList'
+import Winner from './Winner'
 import NavigateBar from './NavigateBar'
 import {Candidates} from './Candidates'
 
@@ -25,90 +26,50 @@ return array;
 const App = () => {
 
   const [round, setRound] = useState(1)
-  const [numberOfCandidates, setNumberOfCandidates] = useState(4)
-  const [background, setBackground] = useState('body { background-color: black; }') // 다크, 라이트모드
+  const [numberOfCandidates, setNumberOfCandidates] = useState(Candidates.length)
+  // const [background, setBackground] = useState('body { background-color: black; }') // 다크, 라이트모드
   const [candidates, setCandidates] = useState(shuffle(Candidates)) // 후보(무작위섞음)
-
-  const [wins, setWins] = useState([]) // 이긴넘들
 
 
   let isEnd = false
+  let winner = ''
 
   let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
-
+  // 1라=[0,1], 2라=[2,3], 3라=[4,5]...
 
   useEffect(() => {
-    console.log(round)
-    if (numberOfCandidates === 2) {
-      console.log(`우승 : ${{wins}}`)
-      isEnd = true
-    } else if (round === (numberOfCandidates / 2) + 1) { // 마지막라운드이면
-      setCandidates(wins)
-      console.log('막라setwins', wins)
-      setWins([])
-      console.log('막라setwins2', wins)
-      setNumberOfCandidates(numberOfCandidates/2)
-    } else {
-      console.log(currentCandidates)
-      console.log(wins)
-    }
-  }, [round, wins])
+    currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
+  }, [candidates])
 
-  // useEffect(() => {
-  //   console.log('wins바뀜')
-  //   if (wins === []) {
-  //     return
-  //   } else {
-  //     if (round === numberOfCandidates / 2) {
-  //       if (numberOfCandidates === 2) {
-  //         console.log(`우승자는 ${wins} 입니다`)
-  //         isEnd = true
-  //       } else {
-  //          setRound(1)
-  //         }
-  //     } else {
-  //       setRound(round + 1)
-  //     }
-  //   }
-  // }, [wins])
 
-  // useEffect(() => {
-  //   console.log('round 바뀜')
-  //   if (round === 1) {
-  //     setCandidates(wins)
-  //     setWins([])
-  //     setNumberOfCandidates(numberOfCandidates/2)
-  //   } else {
-  //     setCurrentCandidates(
-  //       [candidates[(round-1)*2], candidates[(round-1)*2+1]]
-  //       )
-  //   }
-  // }, [round])
-
-    
-
+// [1,2,3,4,5,6,7,8,/1,3,5,7/1,5/1]
   const onPick = (id) => {
     console.log('pick id', id)
-    candidates.forEach((element, i) => { // 승자 추가
+    Candidates.forEach((element) => { // 승자 추가
+
       if (element.id === id) {
-        setWins(oldArray => [...oldArray, element])
-        console.log(wins)
+        setCandidates(oldArray => [...oldArray, element])
       }
     })
-    if (round === numberOfCandidates / 2) {
-      setRound(1)
-      console.log('round : ',round)
+    console.log(round, numberOfCandidates)
+    if (round === numberOfCandidates - 1) {
+      winner = candidates[numberOfCandidates-1]
+      isEnd = true
+      console.log(winner, isEnd)
     } else {
       setRound(round + 1)
     }
-    console.log('wins : ', wins)
   }
 
 
   return (
     <div className="App">
       <NavigateBar wordCupName='worldcupName'/>
-      <CardList currentCandidates={currentCandidates} onPick={onPick}/>
+      { isEnd === true
+      ? <Winner winner={winner} onPick={onPick}/>
+      : <CardList currentCandidates={currentCandidates} onPick={onPick}/>
+      }
+
     </div>
   );
 }
