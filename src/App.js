@@ -1,9 +1,12 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import Home from './Home';
 import CardList from './CardList'
 import Winner from './Winner'
 import NavigateBar from './NavigateBar'
 import {Candidates} from './Candidates'
+import {WorldCups} from './WorldCups'
+
 
 
 
@@ -27,34 +30,52 @@ const App = () => {
 
   const [round, setRound] = useState(1)
   const [numberOfCandidates, setNumberOfCandidates] = useState(Candidates.length)
+  const [worldCupName, setWorldCupName] = useState('월드컵')
   // const [background, setBackground] = useState('body { background-color: black; }') // 다크, 라이트모드
-  const [candidates, setCandidates] = useState(shuffle(Candidates)) // 후보(무작위섞음)
+  const [candidates, setCandidates] = useState(Candidates) // 후보(무작위섞음)
+  const [isEnd, setIsEnd] = useState(false);
+  const [winner, setWinner] = useState('')
 
+  const [route, setRoute] = useState('home')
 
-  let isEnd = false
-  let winner = ''
 
   let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
-  // 1라=[0,1], 2라=[2,3], 3라=[4,5]...
+  let tempArray = []
 
   useEffect(() => {
     currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
-  }, [candidates])
+  }, [round, candidates])
+  
+  useEffect(() => {
+    console.log(tempArray)
+  })
+
+  const routeChange = (route) => {
+    setRoute(route)
+  }
+
+
+
+  const worldCupSelect = (worldCupName) => {
+
+    setWorldCupName(worldCupName)
+    console.log('worldCupSelect',candidates)
+    routeChange('game') // 비동기 주의
+  }
 
 
 // [1,2,3,4,5,6,7,8,/1,3,5,7/1,5/1]
-  const onPick = (id) => {
-    console.log('pick id', id)
-    Candidates.forEach((element) => { // 승자 추가
+  const onPickItem = (id) => {
 
+    Candidates.forEach((element) => { // 승자 추가
       if (element.id === id) {
         setCandidates(oldArray => [...oldArray, element])
+        setWinner(element)
       }
     })
-    console.log(round, numberOfCandidates)
+
     if (round === numberOfCandidates - 1) {
-      winner = candidates[numberOfCandidates-1]
-      isEnd = true
+      setIsEnd(true)
       console.log(winner, isEnd)
     } else {
       setRound(round + 1)
@@ -64,10 +85,15 @@ const App = () => {
 
   return (
     <div className="App">
-      <NavigateBar wordCupName='worldcupName'/>
-      { isEnd === true
-      ? <Winner winner={winner} onPick={onPick}/>
-      : <CardList currentCandidates={currentCandidates} onPick={onPick}/>
+      <NavigateBar wordCupName={worldCupName}/>
+      
+      {
+        route === 'home'
+        ? <Home WorldCups = {WorldCups} onPick={worldCupSelect}/>
+        :              
+          isEnd 
+          ? <Winner winner={winner}/>
+          : <CardList currentCandidates={currentCandidates} onPick={onPickItem}/>        
       }
 
     </div>
