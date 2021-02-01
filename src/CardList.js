@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 
 
-const CardList = ({ currentCandidates, onPick }) => {
+const CardList = ({ currentCandidates, onPickItem }) => {
 
         return(
             <div id = 'CardList'>
@@ -12,7 +12,7 @@ const CardList = ({ currentCandidates, onPick }) => {
                      id = {element.id} 
                      img = {element.img} 
                      name = {element.name} 
-                     onPick = {onPick}/>
+                     onPick = {onPickItem}/>
                     )}
             </div>
         )

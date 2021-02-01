@@ -1,11 +1,13 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import {Helmet} from 'react-helmet';
 import Home from './Home';
 import CardList from './CardList'
 import Winner from './Winner'
 import NavigateBar from './NavigateBar'
 import {Candidates} from './Candidates'
 import {WorldCups} from './WorldCups'
+
 
 
 
@@ -26,6 +28,8 @@ return array;
 }
 
 
+
+
 const App = () => {
 
   const [round, setRound] = useState(1)
@@ -38,21 +42,39 @@ const App = () => {
 
   const [route, setRoute] = useState('home')
 
+  const [currentCandidates, setCurrentCandidates] = useState([candidates[(round-1)*2], candidates[(round-1)*2+1]])
 
-  let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
-  let tempArray = []
+  // let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
 
   useEffect(() => {
-    currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
-  }, [round, candidates])
-  
+    setCurrentCandidates([candidates[(round-1)*2], candidates[(round-1)*2+1]])
+    console.log('cand',candidates)
+  }, [candidates])
+
   useEffect(() => {
-    console.log(tempArray)
-  })
+    let testArray = []
+    Candidates.forEach(element => {
+      if (element.worldCupName === worldCupName) {
+        testArray.push(element)
+      }
+    })
+    
+    console.log(Candidates,'테스트어레이', testArray)
+
+  }, [worldCupName])
+
 
   const routeChange = (route) => {
+    if (route==='home') {
+      setRound(1)
+      setWinner('')
+      setIsEnd(false)
+      setCandidates(Candidates)
+      setWorldCupName('월드컵')
+    }
     setRoute(route)
   }
+  
 
 
 
@@ -61,6 +83,7 @@ const App = () => {
     setWorldCupName(worldCupName)
     console.log('worldCupSelect',candidates)
     routeChange('game') // 비동기 주의
+    console.log(winner)
   }
 
 
@@ -85,15 +108,19 @@ const App = () => {
 
   return (
     <div className="App">
-      <NavigateBar wordCupName={worldCupName}/>
+      <Helmet>
+        <meta charSet='utf-8'/>
+        
+      </Helmet>
+      <NavigateBar worldCupName={worldCupName} isEnd={isEnd} round={round} routeChange={routeChange}/>
       
       {
         route === 'home'
-        ? <Home WorldCups = {WorldCups} onPick={worldCupSelect}/>
+        ? <Home WorldCups = {WorldCups} worldCupSelect={worldCupSelect}/>
         :              
           isEnd 
           ? <Winner winner={winner}/>
-          : <CardList currentCandidates={currentCandidates} onPick={onPickItem}/>        
+          : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
       }
 
     </div>

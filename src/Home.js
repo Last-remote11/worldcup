@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 
-const Home = ( {WorldCups, onPick} ) => {
+const Home = ( {WorldCups, worldCupSelect} ) => {
    
     return (
         <div id = 'WorldCupList'>
@@ -11,7 +11,7 @@ const Home = ( {WorldCups, onPick} ) => {
              id = {element.worldCupName} 
              img = {element.thumbnail} 
              name = {element.worldCupName}
-             onPick = {onPick}
+             onPick = {worldCupSelect}
              width = '300px'
              height = '300px'/>
             )}
