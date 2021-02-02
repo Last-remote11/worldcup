@@ -8,10 +8,10 @@ const Home = ( {WorldCups, worldCupSelect} ) => {
         {WorldCups.map(element =>
              <Card 
              key = {element.id} 
-             id = {element.worldCupName} 
+             id = {element.id} 
              img = {element.thumbnail} 
-             name = {element.worldCupName}
-             onPick = {worldCupSelect}
+             name = {element.worldcupname}
+             onPick = {() => worldCupSelect(element.worldcupname)}
              width = '300px'
              height = '300px'/>
             )}
