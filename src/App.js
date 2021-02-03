@@ -8,6 +8,8 @@ import NavigateBar from './NavigateBar'
 import {Candidates} from './Candidates'
 import {WorldCups} from './WorldCups'
 
+import AddWorldcup from './AddWorldcup'
+
 
 
 
@@ -32,8 +34,8 @@ return array;
 const App = () => {
 
   const [round, setRound] = useState(1)
-  const [numberOfCandidates, setNumberOfCandidates] = useState(8)
-  const [worldCupName, setWorldCupName] = useState('이상형월드컵')
+  const [numberOfCandidates, setNumberOfCandidates] = useState(0)
+  const [worldcupName, setWorldcupName] = useState('이상형월드컵')
   // const [background, setBackground] = useState('body { background-color: black; }') // 다크, 라이트모드
   const [candidates, setCandidates] = useState([]) // 후보(무작위섞음)
   const [isEnd, setIsEnd] = useState(false);
@@ -51,7 +53,7 @@ const App = () => {
       method: 'put',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-      worldCupName: worldCupName
+      worldcupName: worldcupName
     })
   }
 
@@ -73,31 +75,17 @@ const App = () => {
     console.log('cand',candidates)
   }, [candidates])
 
-  // useEffect(() => {
-  //   let testArray = []
-  //   Candidates.forEach(element => {
-  //     if (element.worldCupName === worldCupName) {
-  //       testArray.push(element)
-  //     }
-  //   })
-    
-  //   console.log(Candidates,'테스트어레이', testArray)
-
-  // }, [worldCupName])
-
-
   const routeChange = (route) => {
     if (route==='home') {
       setRound(1)
       setWinner('')
+      setCandidates([])
       setIsEnd(false)
-      setCandidates(Candidates)
-      setWorldCupName('이상형월드컵')
+      setWorldcupName('이상형월드컵')
     }
     setRoute(route)
   }
   
-
   const currentCount = () => {
     let gang = numberOfCandidates
     let denom = 0
@@ -115,71 +103,48 @@ const App = () => {
       )
     }
   }
-  // 8강 3/4 이런 식
+  // 8강 3/4 이런 식으로 현재 단계를 표현
 
   useEffect(() => {
-    loadCandidates();
-    console.log('useeffect', worldCupName)
-  //   fetch('http://localhost:3001/worldcups', {
-  //     method: 'put',
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: JSON.stringify({
-  //     worldCupName: worldCupName
-  //   })
-  // })
-  // .then(res => res.json())
-  // .then(res => {
-  //   if (res) {
-  //   fetch('http://localhost:3001/candidates', {
-  //     method: 'put',
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: JSON.stringify({
-  //     worldCupName: worldCupName
-  //   })
-  // })
-  // .then(res => res.json())
-  // .then(data => setCandidates(data))
-  //   .then(console.log('hi'))
-  //   }
-  // })
-  // .then(worldcup => {
-  //   setNumberOfCandidates(worldcup.noc)
-  // })
-  }
-  , [worldCupName])
 
-  
-
-  const loadCandidates = async () => {
-    const res = await fetch('http://localhost:3001/worldcups', initialRequest);
-    const data = await res.json();
-    setNumberOfCandidates(data.noc);
-    if (data) {
-      fetch('http://localsshost:3001/candidates', initialRequest)
-    .then(res => res.json())
-    .then(data => setCandidates(data))
+    // candidates 테이블에서 worldcupName과 일치하는 후보들의 name, image 등을 가져와 candidate에 setState
+    if (worldcupName !== '이상형월드컵') {
+      fetch('http://localhost:3001/candidates', initialRequest)
+      .then(res => res.json())
+      .then(data => {
+        setCandidates(data)
+        setNumberOfCandidates(data.length)})
+      .then(console.log('candidate 읽었음', candidates))
+      .catch(err => console.log(err, 'candidate 불러오는중 에러'))
     }
-    routeChange('game')
-    console.log('완!')
   }
+  , [worldcupName])
 
-  const worldCupSelect = (worldCupName) => {
-    // db에 접속해서 worldcups 테이블에서 worldCupName과 일치하는 로우의 noc, 썸네일을 받고 setState하고
-    // candidates 테이블에서 worldCupName과 일치하는 후보들의 name, image를 가져와 candidate에 setState
-    setWorldCupName(worldCupName)
-    loadCandidates();
-    console.log('worldCupSelect',candidates) // 비동기 주의
-    console.log(winner)
-    console.log(worldCupName)
-  }
+  useEffect(() => {
+    if (candidates.length !== 0)
+    {routeChange('game')}
+  }, [candidates])
+
+
+  const worldcupSelect = (worldcupName) => {
+
+    setWorldcupName(worldcupName);
+    console.log('worldcupSelect', candidates);
+    console.log(winner);
+  };
 
 
 // [1,2,3,4,5,6,7,8,/1,3,5,7/1,5/1]
   const onPickItem = (id) => {
 
-    Candidates.forEach((element) => { // 승자 추가
+    candidates.forEach((element) => { // 승자 추가
       if (element.id === id) {
-        setCandidates(oldArray => [...oldArray, element])
+        setCandidates(oldArray => [...oldArray, {
+          id: element.id * 1000,
+          worldcupName: element.worldcupName,
+          name: element.name,
+          img: element.img
+        }])
         setWinner(element)
       }
     })
@@ -199,18 +164,18 @@ const App = () => {
         <meta charSet='utf-8'/>
         
       </Helmet>
-      <NavigateBar worldCupName={worldCupName} isEnd={isEnd} routeChange={routeChange}
+      <NavigateBar worldcupName={worldcupName} isEnd={isEnd} routeChange={routeChange}
       currentCount={currentCount} route={route}/>
       
       {
-        route === 'home'
-        ? <Home WorldCups = {world} worldCupSelect={worldCupSelect}/>
+        route === 'home' || candidates.length === 0
+        ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
         :              
-          isEnd 
+          isEnd === true
           ? <Winner winner={winner}/>
           : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
       }
-
+      <AddWorldcup/>
     </div>
   );
 }
