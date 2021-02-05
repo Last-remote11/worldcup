@@ -19,6 +19,7 @@ const AddWorldcup = () => {
 
     const [addNumberOfCandidates, setAddNumberOfCandidates] = useState(4)
     const [addWorldcupName, setAddWorldcupName] = useState('')
+    const [addThumbnail, setAddThumbnail] = useState('')
     const [addName, setAddName] = useState('')
     const [addImg, setAddImg] = useState('')
 
@@ -41,25 +42,77 @@ const AddWorldcup = () => {
         return basicTextArray;
     }
 
+    const onChangeWorldcupNameField = (event) => {
+        setAddWorldcupName(event.target.value);
+    }
+
+    const onChangeThumbnailField = (event) => {
+        setAddThumbnail(event.target.value);
+    }
+
+    const onChangeN = (event) => {
+        setAddNumberOfCandidates(Number(event.target.value))
+    } 
+
+
     const onChangeNameField = (event) => {
+
         let newArr = [...addName];
         newArr[Number(event.target.id)] = event.target.value; 
         setAddName(newArr);
     }
+    
 
     const onChangeImgField = (event) => {
+
         let newArr = [...addImg];
         newArr[Number(event.target.id)] = event.target.value; 
         setAddImg(newArr);
     }
 
 
-    const onChangeN = (event) => {
-        setAddNumberOfCandidates(Number(event.target.value))
-    } 
 
     const onSubmit = () => {
-        console.log('addname: ', addName,'addImg: ', addImg)
+
+        let sendingCandidates = []
+
+
+        for (var i=0; i < addNumberOfCandidates; i++) {
+            if (addImg[i] && addName[i]) {
+                sendingCandidates.push({
+                    worldcupname: addWorldcupName,
+                    name: addName[i],
+                    img: addImg[i]
+                })
+            } else {
+                alert('모든 항목을 입력해주세요')
+                return
+            }
+        }
+
+
+        console.log(sendingCandidates)
+        
+
+        fetch('http://localhost:3001/addWorldcupName', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+            addWorldcupName: addWorldcupName,
+            addThumbnail: addThumbnail,
+            addNumberOfCandidates: addNumberOfCandidates
+          })
+        })
+        .then(res => {if (res) {
+            fetch('http://localhost:3001/addCandidates', {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(
+                    sendingCandidates
+                )
+            })
+        }
+    })
         // addWorldcupName을 db의 worldcups 테이블에 삽입,
         // addName을 db의 candidates 테이블에 삽입
         // 만약 월드컵이름이 중복이면 에러, candidate도 안되게함
@@ -82,7 +135,8 @@ const AddWorldcup = () => {
     return (
         <form className={classes.root} noValidate autoComplete="off">
             <div id = 'textFieldList'>
-                <TextField id="standard-basic" label="월드컵 이름"  variant="outlined"/><br/>
+                <TextField id="standard-basic" label="월드컵 이름"  variant="outlined" onChange={onChangeWorldcupNameField}/><br/>
+                <TextField id="standard-basic" label="월드컵 썸네일" onChange={onChangeThumbnailField}/><br/>
                 {selectNOC()}
                 {generateMultipleFields(addNumberOfCandidates)}
                 <Button variant="contained" color="primary" onClick={onSubmit}>

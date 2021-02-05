@@ -112,7 +112,7 @@ const App = () => {
       fetch('http://localhost:3001/candidates', initialRequest)
       .then(res => res.json())
       .then(data => {
-        setCandidates(data)
+        setCandidates(shuffle(data))
         setNumberOfCandidates(data.length)})
       .then(console.log('candidate 읽었음', candidates))
       .catch(err => console.log(err, 'candidate 불러오는중 에러'))
@@ -168,14 +168,17 @@ const App = () => {
       currentCount={currentCount} route={route}/>
       
       {
-        route === 'home' || candidates.length === 0
-        ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
-        :              
-          isEnd === true
-          ? <Winner winner={winner}/>
-          : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
+        route === 'addWorldcup'
+        ? <AddWorldcup/>
+        :
+          route === 'home' || candidates.length === 0
+          ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
+          :              
+            isEnd === true
+            ? <Winner winner={winner}/>
+            : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
       }
-      <AddWorldcup/>
+      
     </div>
   );
 }
