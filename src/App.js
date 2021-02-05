@@ -64,7 +64,7 @@ const App = () => {
   }, []);
 
   const loadData = async () => {
-    const res = await fetch('http://localhost:3001/load', initialRequest);
+    const res = await fetch('https://young-mesa-11204.herokuapp.com/load', initialRequest);
     const data = await res.json();
     setWorld(data);
     console.log(data);
@@ -109,7 +109,7 @@ const App = () => {
 
     // candidates 테이블에서 worldcupName과 일치하는 후보들의 name, image 등을 가져와 candidate에 setState
     if (worldcupName !== '이상형월드컵') {
-      fetch('http://localhost:3001/candidates', initialRequest)
+      fetch('https://young-mesa-11204.herokuapp.com/candidates', initialRequest)
       .then(res => res.json())
       .then(data => {
         setCandidates(shuffle(data))

@@ -61,7 +61,7 @@ const AddWorldcup = () => {
         newArr[Number(event.target.id)] = event.target.value; 
         setAddName(newArr);
     }
-    
+
 
     const onChangeImgField = (event) => {
 
@@ -94,7 +94,7 @@ const AddWorldcup = () => {
         console.log(sendingCandidates)
         
 
-        fetch('http://localhost:3001/addWorldcupName', {
+        fetch('https://young-mesa-11204.herokuapp.com/addWorldcupName', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -104,7 +104,7 @@ const AddWorldcup = () => {
           })
         })
         .then(res => {if (res) {
-            fetch('http://localhost:3001/addCandidates', {
+            fetch('https://young-mesa-11204.herokuapp.com/addCandidates', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(
