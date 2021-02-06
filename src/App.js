@@ -5,8 +5,7 @@ import Home from './Home';
 import CardList from './CardList'
 import Winner from './Winner'
 import NavigateBar from './NavigateBar'
-import {Candidates} from './Candidates'
-import {WorldCups} from './WorldCups'
+
 
 import AddWorldcup from './AddWorldcup'
 
