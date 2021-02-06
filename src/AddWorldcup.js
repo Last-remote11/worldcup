@@ -57,6 +57,7 @@ const AddWorldcup = () => {
 
     const onChangeNameField = (event) => {
 
+        console.log(addNumberOfCandidates)
         let newArr = [...addName];
         newArr[Number(event.target.id)] = event.target.value; 
         setAddName(newArr);
@@ -75,7 +76,6 @@ const AddWorldcup = () => {
     const onSubmit = () => {
 
         let sendingCandidates = []
-
 
         for (var i=0; i < addNumberOfCandidates; i++) {
             if (addImg[i] && addName[i]) {
