@@ -60,7 +60,7 @@ const App = () => {
   // 전체 월드컵을 로드
   useEffect(() => {
     loadData();
-  }, []);
+  }, [route]);
 
   const loadData = async () => {
     const res = await fetch('https://young-mesa-11204.herokuapp.com/load', initialRequest);
