@@ -20,7 +20,6 @@ const Rank = ( { winner } ) => {
           setRank(data)
         })
         .catch(err => console.log(err, 'rank 불러오는중 에러'))
-
     }, [])
     
     return (
@@ -33,8 +32,10 @@ const Rank = ( { winner } ) => {
                 return(
                     <div key={element.name} className='tc bg-skyblue dib br3 pd3 ma2 bw2 shadow-5 w-50'>
                         <img src={element.img} height='100px' max-width='200px' alt='image load failed' />
+                        <h2>
                         {element.name}
-                        {element.wincount}<br/>
+                        {element.wincount}
+                        </h2>
                     </div>
                     )
                 })
