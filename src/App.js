@@ -5,8 +5,6 @@ import Home from './Home';
 import CardList from './CardList'
 import Winner from './Winner'
 import NavigateBar from './NavigateBar'
-
-
 import AddWorldcup from './AddWorldcup'
 
 
@@ -59,20 +57,44 @@ const App = () => {
 
   // 전체 월드컵을 로드
   useEffect(() => {
+    const loadData = async () => {
+      const res = await fetch('https://young-mesa-11204.herokuapp.com/load', initialRequest);
+      const data = await res.json();
+      setWorld(data);
+      console.log(data);
+    };
     loadData();
   }, [route]);
 
-  const loadData = async () => {
-    const res = await fetch('https://young-mesa-11204.herokuapp.com/load', initialRequest);
-    const data = await res.json();
-    setWorld(data);
-    console.log(data);
-  };
+
 
   useEffect(() => {
     setCurrentCandidates([candidates[(round-1)*2], candidates[(round-1)*2+1]])
     console.log('cand',candidates)
   }, [candidates])
+
+
+  useEffect(() => {
+
+    const addWinner = async () => {
+      const res = await fetch('https://young-mesa-11204.herokuapp.com/addWinner',     
+      {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+        winner: winner.name,
+        worldcupname: winner.worldcupName
+      })
+    });
+      const data = await res.json();
+      console.log(data)
+    }
+
+    if (isEnd) {
+      addWinner();
+    }
+  }, [isEnd])
+  
 
   const routeChange = (route) => {
     if (route==='home') {
@@ -107,6 +129,7 @@ const App = () => {
   useEffect(() => {
 
     // candidates 테이블에서 worldcupName과 일치하는 후보들의 name, image 등을 가져와 candidate에 setState
+    // useEffect로 한 이유 : currentcandidate가 [] 인 채로 home으로 넘어가 버려 에러가 일어남
     if (worldcupName !== '이상형월드컵') {
       fetch('https://young-mesa-11204.herokuapp.com/candidates', initialRequest)
       .then(res => res.json())
@@ -140,7 +163,7 @@ const App = () => {
       if (element.id === id) {
         setCandidates(oldArray => [...oldArray, {
           id: element.id * 1000,
-          worldcupName: element.worldcupName,
+          worldcupName: worldcupName,
           name: element.name,
           img: element.img
         }])
@@ -150,7 +173,6 @@ const App = () => {
 
     if (round === numberOfCandidates - 1) {
       setIsEnd(true)
-      console.log(winner, isEnd)
     } else {
       setRound(round + 1)
     }
@@ -166,11 +188,11 @@ const App = () => {
       <NavigateBar worldcupName={worldcupName} isEnd={isEnd} routeChange={routeChange}
       currentCount={currentCount} route={route}/>
       
-      {
+      { // switch로 변경?
         route === 'addWorldcup'
         ? <AddWorldcup/>
         :
-          route === 'home' || candidates.length === 0
+          route === 'home'
           ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
           :              
             isEnd === true

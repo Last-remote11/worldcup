@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const addName = (event) => {
-  
-}
   
   export default function BasicTextFields() {
     const classes = useStyles();
