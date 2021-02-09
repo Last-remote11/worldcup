@@ -37,11 +37,8 @@ const App = () => {
   const [candidates, setCandidates] = useState([]) // 후보(무작위섞음)
   const [isEnd, setIsEnd] = useState(false);
   const [winner, setWinner] = useState('')
-
   const [route, setRoute] = useState('home')
-
   const [currentCandidates, setCurrentCandidates] = useState([candidates[(round-1)*2], candidates[(round-1)*2+1]])
-
   const [world, setWorld] = useState([])
   // let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
 

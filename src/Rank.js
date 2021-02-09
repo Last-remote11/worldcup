@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Rank.css'
 
 
 const Rank = ( { winner } ) => {
@@ -24,6 +25,7 @@ const Rank = ( { winner } ) => {
     
     return (
         <div>
+            <h2>명예의 전당</h2>
             {
             rank.length === 0
             ?<h1>Rank Loading . . .</h1>
@@ -31,8 +33,9 @@ const Rank = ( { winner } ) => {
             rank.map(element => {
                 return(
                     <div key={element.name} className='tc bg-skyblue dib br3 pd3 ma2 bw2 shadow-5 w-50'>
-                        <img src={element.img} height='100px' max-width='200px' alt='image load failed' />
-                        <h2>
+                        <img src={element.img} height='100px' max-width='200px' alt='load failed' />
+                        
+                        <h2 className='rankFont'>
                         {element.name}
                         {element.wincount}
                         </h2>
