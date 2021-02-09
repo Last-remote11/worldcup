@@ -2,6 +2,8 @@
 
 진행중(미완성)
 
+해야할것: 보기좋게만들기, 이미지 불러오는 방식 수정, 월드컵 추가 시 항목을 다 채워도 안넘어가지는 버그
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
