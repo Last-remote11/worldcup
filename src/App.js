@@ -7,6 +7,8 @@ import Winner from './Winner'
 import NavigateBar from './NavigateBar'
 import AddWorldcup from './AddWorldcup'
 
+import SignIn from './SignIn';
+
 
 
 
@@ -54,13 +56,16 @@ const App = () => {
 
   // 전체 월드컵을 로드
   useEffect(() => {
+    
     const loadData = async () => {
       const res = await fetch('https://young-mesa-11204.herokuapp.com/load', initialRequest);
       const data = await res.json();
       setWorld(data);
       console.log(data);
     };
-    loadData();
+    if (route === 'home') {
+      loadData()
+    };
   }, [route]);
 
 
@@ -180,23 +185,24 @@ const App = () => {
     <div className="App">
       <Helmet>
         <meta charSet='utf-8'/>
-        
       </Helmet>
       <NavigateBar worldcupName={worldcupName} isEnd={isEnd} routeChange={routeChange}
       currentCount={currentCount} route={route}/>
       
       { // switch로 변경?
-        route === 'addWorldcup'
-        ? <AddWorldcup/>
-        :
-          route === 'home'
-          ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
-          :              
-            isEnd === true
-            ? <Winner winner={winner}/>
-            : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
+        // route === 'signIn'
+        // ? <SignIn routeChange={routeChange} />
+        // :
+          route === 'addWorldcup'
+          ? <AddWorldcup/>
+          :
+            route === 'home'
+            ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
+            :              
+              isEnd === true
+              ? <Winner winner={winner}/>
+              : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
       }
-      
     </div>
   );
 }
