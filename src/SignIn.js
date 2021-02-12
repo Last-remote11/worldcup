@@ -61,8 +61,9 @@ export default function SignIn( { routeChange } ) {
   }
 
 
-  const onSubmit = () =>  {
+  const onSubmit = (event) =>  {
 
+    event.preventDefault()
     fetch('https://young-mesa-11204.herokuapp.com/signIn', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},

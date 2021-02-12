@@ -39,7 +39,7 @@ const App = () => {
   const [candidates, setCandidates] = useState([]) // 후보(무작위섞음)
   const [isEnd, setIsEnd] = useState(false);
   const [winner, setWinner] = useState('')
-  const [route, setRoute] = useState('home')
+  const [route, setRoute] = useState('signIn')
   const [currentCandidates, setCurrentCandidates] = useState([candidates[(round-1)*2], candidates[(round-1)*2+1]])
   const [world, setWorld] = useState([])
   // let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
@@ -63,9 +63,7 @@ const App = () => {
       setWorld(data);
       console.log(data);
     };
-    if (route === 'home') {
-      loadData()
-    };
+    loadData()
   }, [route]);
 
 
@@ -145,7 +143,7 @@ const App = () => {
   , [worldcupName])
 
   useEffect(() => {
-    if (candidates.length !== 0)
+    if (candidates.length !== 0 && route !== 'signIn')
     {routeChange('game')}
   }, [candidates])
 
@@ -186,18 +184,21 @@ const App = () => {
       <Helmet>
         <meta charSet='utf-8'/>
       </Helmet>
-      <NavigateBar worldcupName={worldcupName} isEnd={isEnd} routeChange={routeChange}
-      currentCount={currentCount} route={route}/>
+      { route === 'signIn'
+        ? <h2></h2>
+        : <NavigateBar worldcupName={worldcupName} isEnd={isEnd} routeChange={routeChange}
+          currentCount={currentCount} route={route}/>
+        }
       
       { // switch로 변경?
-        // route === 'signIn'
-        // ? <SignIn routeChange={routeChange} />
-        // :
+        route === 'signIn'
+        ? <SignIn routeChange={routeChange} />
+        :
           route === 'addWorldcup'
           ? <AddWorldcup/>
           :
             route === 'home'
-            ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/>
+            ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/> 
             :              
               isEnd === true
               ? <Winner winner={winner}/>
