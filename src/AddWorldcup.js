@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddWorldcup = () => {
+const AddWorldcup = ({world, routeChange}) => {
 
     const classes = useStyles();
 
@@ -33,8 +33,8 @@ const AddWorldcup = () => {
         for(var i=0; i < addNumberOfCandidates; i++) {
             basicTextArray.push(
                 <form key = {Number(i)} className={classes.root} noValidate autoComplete="off">
-                <TextField id={i} label={i+1}  variant="filled" onChange={onChangeNameField}/>
-                <TextField id={i} label="이미지 링크" variant="filled" onChange={onChangeImgField}/>
+                <TextField id={i.toString()} label={i+1}  variant="filled" onChange={onChangeNameField}/>
+                <TextField id={i.toString()} label="이미지 링크" variant="filled" onChange={onChangeImgField}/>
                 </form>
             )
         };
@@ -56,7 +56,6 @@ const AddWorldcup = () => {
 
     const onChangeNameField = (event) => {
 
-        console.log(addNumberOfCandidates)
         let newArr = [...addName];
         newArr[Number(event.target.id)] = event.target.value; 
         setAddName(newArr);
@@ -75,7 +74,9 @@ const AddWorldcup = () => {
     const onSubmit = () => {
 
         let sendingCandidates = []
+        console.log(addWorldcupName, addName, addImg)
 
+        // 모든 항목이 채워졌는지 체크.  빈칸은 undified 혹은 '' (둘다false)가 되기때문
         for (var i=0; i < addNumberOfCandidates; i++) {
             if (addImg[i] && addName[i]) {
                 sendingCandidates.push({
@@ -89,8 +90,13 @@ const AddWorldcup = () => {
             }
         }
 
-
-        console.log(sendingCandidates)
+        // 월드컵이름 중복체크
+        for (let i=0; i<world.length; i++) {
+            if (world[i].worldcupname === addWorldcupName) {
+                alert('중복된 월드컵 이름입니다. 다른 이름을 사용해주세요.')
+                return
+            }
+        }
         
 
         fetch('https://young-mesa-11204.herokuapp.com/addWorldcupName', {
@@ -111,7 +117,13 @@ const AddWorldcup = () => {
                 )
             })
         }
-    })
+        })
+        .then(data => {
+            console.log(data)
+            alert('추가가 완료되었습니다.')
+            routeChange('home')
+        
+        })
         // addWorldcupName을 db의 worldcups 테이블에 삽입,
         // addName을 db의 candidates 테이블에 삽입
         // 만약 월드컵이름이 중복이면 에러, candidate도 안되게함

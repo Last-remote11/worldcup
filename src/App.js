@@ -14,17 +14,17 @@ import SignIn from './SignIn';
 
 
 const shuffle = (array) => {
-var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-while (0 !== currentIndex) {
+  while (0 !== currentIndex) {
 
-  randomIndex = Math.floor(Math.random() * currentIndex);
-  currentIndex -= 1;
-  temporaryValue = array[currentIndex];
-  array[currentIndex] = array[randomIndex];
-  array[randomIndex] = temporaryValue;
-}
-return array;
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
 }
 
 
@@ -195,7 +195,7 @@ const App = () => {
         ? <SignIn routeChange={routeChange} />
         :
           route === 'addWorldcup'
-          ? <AddWorldcup/>
+          ? <AddWorldcup world={world} routeChange={routeChange}/>
           :
             route === 'home'
             ? <Home WorldCups = {world} worldcupSelect={worldcupSelect}/> 
