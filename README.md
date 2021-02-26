@@ -2,7 +2,7 @@
 
 진행중(미완성)
 
-해야할것: 보기좋게만들기, 이미지 불러오는 방식 수정, 댓글기능 추가
+##해야할것 : 라우팅을 react router로 변경, 보기좋게만들기, 이미지 불러오는 방식 수정, 댓글기능 추가
 
 # Getting Started with Create React App
 
