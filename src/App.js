@@ -5,10 +5,10 @@ import Home from './Home';
 import CardList from './CardList'
 import Winner from './Winner'
 import NavigateBar from './NavigateBar'
-
-
 import AddWorldcup from './AddWorldcup'
 
+
+import Rank from './Rank'
 
 
 
@@ -39,11 +39,8 @@ const App = () => {
   const [candidates, setCandidates] = useState([]) // 후보(무작위섞음)
   const [isEnd, setIsEnd] = useState(false);
   const [winner, setWinner] = useState('')
-
   const [route, setRoute] = useState('home')
-
   const [currentCandidates, setCurrentCandidates] = useState([candidates[(round-1)*2], candidates[(round-1)*2+1]])
-
   const [world, setWorld] = useState([])
   // let currentCandidates = [candidates[(round-1)*2], candidates[(round-1)*2+1]]
 
@@ -161,7 +158,6 @@ const App = () => {
     <div className="App">
       <Helmet>
         <meta charSet='utf-8'/>
-        
       </Helmet>
       <NavigateBar worldcupName={worldcupName} isEnd={isEnd} routeChange={routeChange}
       currentCount={currentCount} route={route}/>
@@ -177,7 +173,7 @@ const App = () => {
             ? <Winner winner={winner}/>
             : <CardList currentCandidates={currentCandidates} onPickItem={onPickItem}/>        
       }
-      
+      <Rank />
     </div>
   );
 }

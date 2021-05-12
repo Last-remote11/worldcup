@@ -8,7 +8,7 @@ const Card = ( {id, img, name, onPick, width='400px', height='400px'} ) => {
         <div>
             <h2>{name}</h2>
         </div>
-     </div>
+    </div>
     );
 };  
 
