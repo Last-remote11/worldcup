@@ -5,7 +5,12 @@ const Home = ( {WorldCups, worldcupSelect} ) => {
    
     return (
         <div id = 'WorldCupList'>
-        {WorldCups.map(element =>
+        {
+        WorldCups.length===0
+        ?
+        <h1>Loading . . .</h1> 
+        :
+            WorldCups.map(element =>
              <Card 
              key = {element.id} 
              id = {element.id} 

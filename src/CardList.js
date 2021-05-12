@@ -6,7 +6,12 @@ const CardList = ({ currentCandidates, onPickItem }) => {
 
         return(
             <div id = 'CardList'>
-                {currentCandidates.map(element =>
+                {
+                currentCandidates.length === 0
+                ?
+                <h1>Loading . . .</h1>
+                :
+                currentCandidates.map(element =>
                      <Card 
                      key = {element.id} 
                      id = {element.id} 

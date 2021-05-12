@@ -2,6 +2,8 @@
 
 진행중(미완성)
 
+해야할것: 보기좋게만들기, 이미지 불러오는 방식 수정, 댓글기능 추가
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
