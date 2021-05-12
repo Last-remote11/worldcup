@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/worldcup/static/css/main.b56a5199.chunk.css",
+    "main.js": "/worldcup/static/js/main.50997fd2.chunk.js",
+    "main.js.map": "/worldcup/static/js/main.50997fd2.chunk.js.map",
+    "runtime-main.js": "/worldcup/static/js/runtime-main.e2a3632d.js",
+    "runtime-main.js.map": "/worldcup/static/js/runtime-main.e2a3632d.js.map",
+    "static/css/2.31461e4f.chunk.css": "/worldcup/static/css/2.31461e4f.chunk.css",
+    "static/js/2.a06a74a6.chunk.js": "/worldcup/static/js/2.a06a74a6.chunk.js",
+    "static/js/2.a06a74a6.chunk.js.map": "/worldcup/static/js/2.a06a74a6.chunk.js.map",
+    "static/js/3.4503db0d.chunk.js": "/worldcup/static/js/3.4503db0d.chunk.js",
+    "static/js/3.4503db0d.chunk.js.map": "/worldcup/static/js/3.4503db0d.chunk.js.map",
+    "index.html": "/worldcup/index.html",
+    "static/css/2.31461e4f.chunk.css.map": "/worldcup/static/css/2.31461e4f.chunk.css.map",
+    "static/css/main.b56a5199.chunk.css.map": "/worldcup/static/css/main.b56a5199.chunk.css.map",
+    "static/js/2.a06a74a6.chunk.js.LICENSE.txt": "/worldcup/static/js/2.a06a74a6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e2a3632d.js",
+    "static/css/2.31461e4f.chunk.css",
+    "static/js/2.a06a74a6.chunk.js",
+    "static/css/main.b56a5199.chunk.css",
+    "static/js/main.50997fd2.chunk.js"
+  ]
+}
